@@ -1,5 +1,6 @@
 const { Sequelize } = require('sequelize');
 const { configureModelRelationships } = require("./configureModelRelationships");
+const { addDummyData } = require("./addDummyData");
 const { modelDefiners } = require('./models')
 
 async function initializeSequelize() {
@@ -16,6 +17,7 @@ async function initializeSequelize() {
 
     configureModelRelationships(sequelize);
     await sequelize.sync({ force: true });
+    await addDummyData(sequelize);
     return sequelize;
 }
 

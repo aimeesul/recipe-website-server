@@ -3,7 +3,7 @@ const measurementUnit = (sequelize) => sequelize.define(
   'measurementUnit',
   {
     unitName: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
