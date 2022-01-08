@@ -31,7 +31,7 @@ initializeSequelize().then((sequelize) => {
       }
     );
     const totalCount = await recipe.count();
-    res.json({ recipes, totalCount, offset: actualOffset, limit: actualLimit });
+    res.json({ items: recipes, totalCount, offset: actualOffset, limit: actualLimit });
   })
 
   app.listen(port, () => console.log(`Example app listening on port ${port}!`));
