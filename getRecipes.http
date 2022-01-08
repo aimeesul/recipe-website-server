@@ -1,2 +1,2 @@
-GET http://localhost:3000/recipes?sort=aerfl&limit=2&offset=0
+GET http://localhost:3000/recipes?sort=aerfl&limit=1&offset=0
 Authorization: aimeeiscool

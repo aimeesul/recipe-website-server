@@ -11,15 +11,16 @@ initializeSequelize().then((sequelize) => {
   const { measurementUnit, ingredient, recipe, recipeIngredient, user, recipeStep } = sequelize.models;
 
   app.get("/recipes", async (req, res) => {
-    const {sort, limit, offset}=req.query;
+    const { sort, limit, offset } = req.query;
     const limitNum = parseInt(limit);
     const offsetNum = parseInt(offset);
-    const actualLimit = isNaN(limitNum)?50:Math.min(100, limitNum);
-    const actualOffset = isNaN(offsetNum)?0:offsetNum;
-    
+    const actualLimit = isNaN(limitNum) ? 50 : Math.min(100, limitNum);
+    const actualOffset = isNaN(offsetNum) ? 0 : offsetNum;
+    const actualSortOrder = sort === "DESC" ? 'DESC' : 'ASC';
+
     const recipes = await recipe.findAll(
       {
-        order: [['createdAt', req.query.sort === "DESC" ? 'DESC' : 'ASC'], [recipeStep, "order", "ASC"]],
+        order: [['createdAt', actualSortOrder], [recipeStep, "order", "ASC"]],
         include: [{
           model: recipeIngredient, include: [ingredient, measurementUnit]
         },
@@ -29,7 +30,8 @@ initializeSequelize().then((sequelize) => {
         limit: actualLimit, offset: actualOffset
       }
     );
-    res.json(recipes);
+    const totalCount = await recipe.count();
+    res.json({ recipes, totalCount, offset: actualOffset, limit: actualLimit });
   })
 
   app.listen(port, () => console.log(`Example app listening on port ${port}!`));
