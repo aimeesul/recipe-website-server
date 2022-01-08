@@ -9,6 +9,11 @@ const user = (sequelize) => sequelize.define(
     lastName: {
       type: DataTypes.STRING,
     },
+    userName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    }
   },
   {
     tableName: 'Users',

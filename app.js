@@ -3,11 +3,12 @@ const { initializeSequelize } = require("./src/sequelize")
 const app = express();
 const port = 3000;
 const { configureMiddleware } = require("./src/middleware/configureMiddleware");
+const { recipeStep } = require("./src/sequelize/models/recipeStep");
 
-initializeSequelize().then(() => {
+initializeSequelize().then((sequelize) => {
   configureMiddleware(app);
 
-
+  const { measurementUnit, ingredient, recipe, recipeIngredient, user, recipeStep } = sequelize.models;
 
   app.get("/", (req, res) => res.send("Hello World!"));
   app.get("/products", (req, res) => {
@@ -48,8 +49,18 @@ initializeSequelize().then(() => {
   })
 
 
-  app.get("/recipes", (req, res) => {
-    const recipes = [{ name: "recipe1" }, { name: "recipe2" }, { name: "recipe3" }];
+  app.get("/recipes", async (req, res) => {
+    const recipes = await recipe.findAll(
+      {
+        order: [[recipeStep, "order", "ASC"]],
+        include: [{
+          model: recipeIngredient, include: [ingredient, measurementUnit]
+        },
+        {
+          model: recipeStep
+        }]
+      }
+    );
     res.json(recipes);
   })
 

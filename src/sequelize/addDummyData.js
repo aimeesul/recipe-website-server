@@ -1,6 +1,8 @@
+const { recipeStep } = require("./models/recipeStep");
+
 async function addDummyData(sequelize) {
     const { user } = sequelize.models;
-    const aimee = await user.create({ firstName: 'aimee', lastName: 'sullivan' });
+    const aimee = await user.create({ firstName: 'aimee', lastName: 'sullivan', userName:"aimeesullivan" });
     await addWhiteBreadRecipeToUser(sequelize, aimee);
     await addMilkShakeRecipeToUser(sequelize, aimee);
 }
@@ -26,6 +28,16 @@ async function addWhiteBreadRecipeToUser(sequelize, userEntity) {
         ingredientId: salt.id,
         quantity: 1,
     });
+    
+    await whiteBread.createRecipeStep({
+        description:"add flour",
+        order: 3
+    });
+    await whiteBread.createRecipeStep({
+        description:"add salt",
+        order:2
+    });
+
 }
 
 async function addMilkShakeRecipeToUser(sequelize, userEntity) {
@@ -47,5 +59,13 @@ async function addMilkShakeRecipeToUser(sequelize, userEntity) {
         quantity: 300,
     });
 
+    await milkshake.createRecipeStep({
+        description: "bring all the boys to the yard",
+        order: 1
+    });
+    await milkshake.createRecipeStep({
+        description: "its better than yours",
+        order: 2
+    });
 }
 

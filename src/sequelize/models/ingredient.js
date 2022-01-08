@@ -5,6 +5,7 @@ const ingredient = (sequelize) => sequelize.define(
     ingredientName: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true
     },
   },
   {

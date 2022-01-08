@@ -5,7 +5,10 @@ const recipe = (sequelize) => sequelize.define(
     title: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
+    }, 
+    description: {
+      type: DataTypes.STRING,
+    }, 
   },
   {
     tableName: 'Recipes',

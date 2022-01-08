@@ -4,4 +4,5 @@ module.exports.modelDefiners = [
     require("./recipe").recipe,
     require("./recipeIngredient").recipeIngredient,
     require("./user").user,
+    require("./recipeStep").recipeStep
 ];
