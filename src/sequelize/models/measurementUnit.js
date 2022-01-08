@@ -5,6 +5,7 @@ const measurementUnit = (sequelize) => sequelize.define(
     unitName: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true
     },
   },
   {
