@@ -19,7 +19,9 @@
   "homepage": "https://github.com/aimeesul/recipeshare#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "sequelize": "^6.12.5",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
