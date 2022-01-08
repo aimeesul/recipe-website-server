@@ -52,7 +52,7 @@ initializeSequelize().then((sequelize) => {
   app.get("/recipes", async (req, res) => {
     const recipes = await recipe.findAll(
       {
-        order: [[recipeStep, "order", "ASC"]],
+        order: [['createdAt', 'ASC'], [recipeStep, "order", "ASC"]],
         include: [{
           model: recipeIngredient, include: [ingredient, measurementUnit]
         },
