@@ -3,17 +3,20 @@ const app = express();
 const port = 3000;
 const cors = require('cors');
 
-const allowedOrigins = ["http://localhost:5000", "http://localhost:3001", "http://127.0.0.1:5000"]
+var allowlist = ["http://localhost:5000", "http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:5000"]
 
-app.use(cors({ origin: (origin, callback) => {
-  if (allowedOrigins.includes(origin)) {
-    callback(null, true);
-  } else {
-    callback(new Error ("CORS not allowed"))
+
+app.use(cors({
+  origin: (origin, callback) => {
+    var corsOptions;
+    if (origin && allowlist.includes(origin)) {
+      corsOptions = { origin: true }
+    } else {
+      corsOptions = { origin: false }
+    }
+    callback(null, corsOptions)
   }
-  
-
-}}));
+}));
 app.use(express.json());
 
 app.get("/", (req, res) => res.send("Hello World!"));
@@ -56,7 +59,7 @@ app.post("/monkey", (req, res) => {
 
 
 app.get("/recipes", (req, res) => {
-  const recipes = [{name: "recipe1"}, {name: "recipe2"}, {name: "recipe3"}];
+  const recipes = [{ name: "recipe1" }, { name: "recipe2" }, { name: "recipe3" }];
   res.send(recipes);
 })
 
