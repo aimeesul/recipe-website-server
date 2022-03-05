@@ -10,6 +10,11 @@ initializeSequelize().then((sequelize) => {
 
   const { measurementUnit, ingredient, recipe, recipeIngredient, user, recipeStep } = sequelize.models;
 
+  app.get("/measurementUnits", async (req, res) => {
+    const measurementUnits = await measurementUnit.findAll();
+    res.json(measurementUnits.map(item => ({ id: item.id, unitName: item.unitName })));
+  })
+
   app.get("/recipes", async (req, res) => {
     const { sort, limit, offset } = req.query;
     const limitNum = parseInt(limit);
