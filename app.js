@@ -15,6 +15,18 @@ initializeSequelize().then((sequelize) => {
     res.json(measurementUnits.map(item => ({ id: item.id, unitName: item.unitName })));
   })
 
+  app.get("/recipe/:recipeId", async (req, res) => {
+    const r = await recipe.findOne({
+      where: { id: req.params.recipeId }, include: [{
+        model: recipeIngredient, include: [ingredient, measurementUnit]
+      },
+      {
+        model: recipeStep
+      }],
+    })
+    res.json(r)
+  })
+
   app.get("/recipes", async (req, res) => {
     const { sort, limit, offset } = req.query;
     const limitNum = parseInt(limit);
@@ -37,6 +49,28 @@ initializeSequelize().then((sequelize) => {
     );
     const totalCount = await recipe.count();
     res.json({ items: recipes, totalCount, offset: actualOffset, limit: actualLimit });
+  })
+
+  app.put("/recipes", async (req, res) => {
+    const recipe = req.body;
+    const u = await user.findOne({ where: { userName: "aimeesullivan" } })
+    const r = await u.createRecipe({ title: recipe.title })
+    for (const ing of recipe.ingredients) {
+      const i = await ingredient.create({ ingredientName: ing.name })
+      await r.createRecipeIngredient({
+        measurementUnitId: ing.measurement.id,
+        ingredientId: i.id,
+        quantity: ing.quantity,
+      });
+    }
+    let ord = 1
+    for (const st of recipe.steps) {
+      await r.createRecipeStep({ description: st, order: ord });
+      ord++;
+    }
+
+
+    res.sendStatus(200);
   })
 
   app.listen(port, () => console.log(`Example app listening on port ${port}!`));
