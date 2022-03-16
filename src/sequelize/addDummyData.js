@@ -3,8 +3,9 @@ const { recipeStep } = require("./models/recipeStep");
 async function addDummyData(sequelize) {
     const { user } = sequelize.models;
     const aimee = await user.create({ firstName: 'aimee', lastName: 'sullivan', userName:"aimeesullivan" });
+    const bob = await user.create({ firstName: 'bob', lastName: 'smith', userName:"bobsmith" });
     await addWhiteBreadRecipeToUser(sequelize, aimee);
-    await addMilkShakeRecipeToUser(sequelize, aimee);
+    await addMilkShakeRecipeToUser(sequelize, bob);
 }
 
 module.exports.addDummyData = addDummyData;
