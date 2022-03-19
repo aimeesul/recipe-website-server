@@ -43,6 +43,8 @@ initializeSequelize().then((sequelize) => {
         },
         {
           model: recipeStep
+        }, {
+          model: user
         }],
         limit: actualLimit, offset: actualOffset
       }

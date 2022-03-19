@@ -1,11 +1,58 @@
+const { ingredientsArray } = require("./ingredientsArray");
 const { recipeStep } = require("./models/recipeStep");
 
+function splitToChunks(arr, chunkSize) {
+    const outerArr = [];
+    const items = Array.from(arr);
+    while (items.length > 0) {
+        const innerArr = [];
+        for (let i = 0; i < chunkSize && items.length > 0; i++) {
+            innerArr.push(items.pop());
+        }
+        if (innerArr.length > 0) {
+            outerArr.push(innerArr)
+        }
+    }
+
+    return outerArr;
+}
+
+async function makeSillyRecipes(sequelize) {
+    const { measurementUnit, ingredient, user } = sequelize.models;
+    const lotOfIngredients = Array.from(new Array(20)).flatMap((_, i) => ingredientsArray.map(v => `${v}${i}`))
+    const array = splitToChunks(lotOfIngredients, 3);
+    const floogel = await measurementUnit.create({ unitName: 'floogel' });
+    const cratchbob = await measurementUnit.create({ unitName: 'cratchbob' });
+    const rob = await user.create({ firstName: 'rob', lastName: 'bot', userName: "robot" });
+    for (const [item, idx] of array.map((v, i) => [v, i])) {
+        const title = `recipe-${idx}`;
+        const reci = await rob.createRecipe({ title });
+        await Promise.all(item.map(async (ing) => {
+            const ii = await ingredient.create({ ingredientName: ing })
+            await reci.createRecipeIngredient({
+                measurementUnitId: Math.random() < 0.5 ? floogel.id : cratchbob.id,
+                ingredientId: ii.id,
+                quantity: Math.floor(Math.random() * 10 + 1),
+            });
+        }))
+        await reci.createRecipeStep({
+            description: "do this",
+            order: 1
+        });
+        await reci.createRecipeStep({
+            description: "do that",
+            order: 2
+        });
+
+    }
+}
 async function addDummyData(sequelize) {
     const { user } = sequelize.models;
-    const aimee = await user.create({ firstName: 'aimee', lastName: 'sullivan', userName:"aimeesullivan" });
-    const bob = await user.create({ firstName: 'bob', lastName: 'smith', userName:"bobsmith" });
+    const aimee = await user.create({ firstName: 'aimee', lastName: 'sullivan', userName: "aimeesullivan" });
+    const bob = await user.create({ firstName: 'bob', lastName: 'smith', userName: "bobsmith" });
     await addWhiteBreadRecipeToUser(sequelize, aimee);
     await addMilkShakeRecipeToUser(sequelize, bob);
+    await makeSillyRecipes(sequelize)
 }
 
 module.exports.addDummyData = addDummyData;
@@ -29,14 +76,14 @@ async function addWhiteBreadRecipeToUser(sequelize, userEntity) {
         ingredientId: salt.id,
         quantity: 1,
     });
-    
+
     await whiteBread.createRecipeStep({
-        description:"add flour",
+        description: "add flour",
         order: 3
     });
     await whiteBread.createRecipeStep({
-        description:"add salt",
-        order:2
+        description: "add salt",
+        order: 2
     });
 
 }
@@ -48,7 +95,7 @@ async function addMilkShakeRecipeToUser(sequelize, userEntity) {
     const milk = await ingredient.create({ ingredientName: 'milk' });
     const banana = await ingredient.create({ ingredientName: 'banana' });
     const millilitre = await measurementUnit.create({ unitName: 'millilitre' });
-    
+
 
     await milkshake.createRecipeIngredient({
         ingredientId: banana.id,
