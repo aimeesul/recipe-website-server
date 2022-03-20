@@ -7,8 +7,8 @@ async function initializeSequelize() {
     const sequelize = new Sequelize({
         dialect: 'sqlite',
         storage: '.data/database.sqlite',
-        logging: (...msg) => console.log(msg),
-        // logging: false,
+       // logging: (...msg) => console.log(msg),
+         logging: false,
     });
 
     for (const modelDefiner of modelDefiners) {

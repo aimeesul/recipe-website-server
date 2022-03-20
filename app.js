@@ -4,6 +4,7 @@ const app = express();
 const port = 3000;
 const { configureMiddleware } = require("./src/middleware/configureMiddleware");
 const { recipeStep } = require("./src/sequelize/models/recipeStep");
+const { urlGoogle, getGoogleAccountFromCode } = require("./google-util");
 
 initializeSequelize().then((sequelize) => {
   configureMiddleware(app);
@@ -72,7 +73,18 @@ initializeSequelize().then((sequelize) => {
     }
 
 
+
     res.sendStatus(200);
+  })
+
+  app.post("/creds", async (req, res) => {
+    const credentials = req.body;
+    const result = await getGoogleAccountFromCode(credentials.code);
+    res.json(result);
+  });
+
+  app.get("/loginUrl", async (req, res) => {
+    res.json({ url: urlGoogle() })
   })
 
   app.listen(port, () => console.log(`Example app listening on port ${port}!`));

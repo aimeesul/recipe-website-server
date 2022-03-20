@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/aimeesul/recipeshare#readme",
   "dependencies": {
+    "@google-cloud/local-auth": "^1.0.1",
     "cors": "^2.8.5",
     "express": "^4.17.2",
+    "googleapis": "^97.0.0",
     "sequelize": "^6.12.5",
     "sqlite3": "^5.0.2"
   },
