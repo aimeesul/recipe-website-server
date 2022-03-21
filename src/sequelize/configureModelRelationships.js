@@ -1,5 +1,12 @@
 function configureModelRelationships(sequelize) {
-    const { user, recipe, measurementUnit, recipeIngredient, ingredient, recipeStep } = sequelize.models;
+    const { user, recipe, measurementUnit, recipeIngredient, ingredient, recipeStep, loginProvider, externalLogin } = sequelize.models;
+
+    loginProvider.hasMany(externalLogin)
+    externalLogin.belongsTo(loginProvider)
+
+    user.hasOne(externalLogin)
+    externalLogin.belongsTo(user)
+    
 
     user.hasMany(recipe, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
     recipe.belongsTo(user, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });

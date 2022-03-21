@@ -19,7 +19,7 @@ function splitToChunks(arr, chunkSize) {
 
 async function makeSillyRecipes(sequelize) {
     const { measurementUnit, ingredient, user } = sequelize.models;
-    const lotOfIngredients = Array.from(new Array(5)).flatMap((_, i) => ingredientsArray.map(v => `${v}${i}`))
+    const lotOfIngredients = Array.from(new Array(2)).flatMap((_, i) => ingredientsArray.map(v => `${v}${i}`))
     const array = splitToChunks(lotOfIngredients, 3);
     const floogel = await measurementUnit.create({ unitName: 'floogel' });
     const cratchbob = await measurementUnit.create({ unitName: 'cratchbob' });

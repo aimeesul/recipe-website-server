@@ -1,2 +1,14 @@
 GET http://localhost:3000/recipes?sort=aerfl&limit=1&offset=0
-Authorization: aimeeiscool
+
+###
+GET http://localhost:3000/recipe/1
+
+###
+GET http://localhost:3000/api/insecure
+
+###
+
+GET http://localhost:3000/api/secure
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDc4MDAyOTUsImV4cCI6MTY0NzgwMzg5NSwiYXVkIjoic29jaWFsLWxvZ2lucy1zcGEiLCJpc3MiOiJzb2NpYWwtbG9naW5zLXNwYSIsInN1YiI6IjEifQ.5qnYAYzXqnPcl1Oe69oGN5W3xzbDnwHPfjt68Z_vX9c
+###
+GET http://localhost:3000/api/authentication/google/start
