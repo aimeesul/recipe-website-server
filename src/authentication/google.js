@@ -1,18 +1,10 @@
 const passport = require('passport');
 const passportGoogle = require('passport-google-oauth');
-const config = require('../config');
+const { getPassportGoogleOptions } = require("./getPassportGoogleOptions");
 
 function initialize(userRepo) {
     
-    const callbackURL = new URL(process.env.SERVER_BASE_URL)
-    callbackURL.pathname = "/api/authentication/google/redirect"
-    console.log(callbackURL.href)
-
-    const passportConfig = {
-        clientID: config.get('authentication.google.clientId'),
-        clientSecret: config.get('authentication.google.clientSecret'),
-        callbackURL: callbackURL.href
-    };
+    const passportConfig = getPassportGoogleOptions();
 
     if (passportConfig.clientID) {
         passport.use(new passportGoogle.OAuth2Strategy(passportConfig, async function (request, accessToken, refreshToken, profile, done) {
@@ -26,3 +18,5 @@ function initialize(userRepo) {
     }
 }
 module.exports.initialize = initialize
+
+
