@@ -24,7 +24,7 @@ initializeSequelize().then((sequelize) => {
 
   const port = config.get('http.port');
   app.listen(port, () => {
-    console.log(`Example app listening on port ${port}!`)
+    console.log(`Server listening on port ${port}.`)
   });
 })
 

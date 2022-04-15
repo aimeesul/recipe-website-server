@@ -1,5 +1,5 @@
 const passport = require('passport');
-const token = require('./src/token');
+const token = require('./src/authentication/token');
 const { getPagingParams } = require("./src/express/getPagingParams");
 
 function configureEndpoints(app, measurementUnitRepo, recipeRepo) {
