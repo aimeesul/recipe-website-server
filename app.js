@@ -7,10 +7,10 @@ const passport = require('passport');
 const token = require('./src/token');
 const jwtStrat = require('./src/authentication/jwt');
 const googleStrat = require('./src/authentication/google');
-const { getUserRepo } = require("./src/sequelize/getUserRepo");
-const { getRecipeRepo } = require("./src/sequelize/getRecipeRepo");
+const { getUserRepo } = require("./src/sequelize/repos/getUserRepo");
+const { getRecipeRepo } = require("./src/sequelize/repos/getRecipeRepo");
 const { getPagingParams } = require("./src/express/getPagingParams");
-const { getMeasurementUnitRepo } = require('./src/sequelize/getMeasurementUnitRepo');
+const { getMeasurementUnitRepo } = require('./src/sequelize/repos/getMeasurementUnitRepo');
 
 const app = express();
 
@@ -30,7 +30,8 @@ initializeSequelize().then((sequelize) => {
     passport.authenticate('google', { session: false }),
     (req, res) => {
       const accessToken = token.generateAccessToken(req.user.id);
-      const redirectUrl = new URL("http://localhost:5000/loggedin");
+      const redirectUrl = new URL(process.env.CLIENT_BASE_URL);
+      redirectUrl.pathname = "/loggedin"
       redirectUrl.hash = JSON.stringify({ accessToken });
       res.redirect(redirectUrl.href);
     });

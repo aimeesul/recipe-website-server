@@ -1,5 +1,5 @@
 const { ingredientsArray } = require("./ingredientsArray");
-const { recipeStep } = require("./models/recipeStep");
+const { recipeStep } = require("../models/recipeStep");
 
 function splitToChunks(arr, chunkSize) {
     const outerArr = [];

@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 const { configureModelRelationships } = require("./configureModelRelationships");
-const { addDummyData } = require("./addDummyData");
+const { addDummyData } = require("./dummyData/addDummyData");
 const { modelDefiners } = require('./models')
 
 async function initializeSequelize() {

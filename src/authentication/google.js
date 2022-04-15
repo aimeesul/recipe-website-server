@@ -4,10 +4,14 @@ const config = require('../config');
 
 function initialize(userRepo) {
     
+    const callbackURL = new URL(process.env.SERVER_BASE_URL)
+    callbackURL.pathname = "/api/authentication/google/redirect"
+    console.log(callbackURL.href)
+
     const passportConfig = {
         clientID: config.get('authentication.google.clientId'),
         clientSecret: config.get('authentication.google.clientSecret'),
-        callbackURL: 'http://localhost:3000/api/authentication/google/redirect'
+        callbackURL: callbackURL.href
     };
 
     if (passportConfig.clientID) {

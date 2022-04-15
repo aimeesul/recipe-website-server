@@ -7,7 +7,6 @@ function configureModelRelationships(sequelize) {
     user.hasOne(externalLogin)
     externalLogin.belongsTo(user)
     
-
     user.hasMany(recipe, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
     recipe.belongsTo(user, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
 
