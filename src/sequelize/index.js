@@ -16,8 +16,8 @@ async function initializeSequelize() {
     }
 
     configureModelRelationships(sequelize);
-    await sequelize.sync({ force: true });
-    await addDummyData(sequelize);
+   // await sequelize.sync({ force: false });
+    //await addDummyData(sequelize);
     return sequelize;
 }
 

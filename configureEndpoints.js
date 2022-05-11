@@ -4,7 +4,7 @@ const { getPagingParams } = require("./src/express/getPagingParams");
 
 function configureEndpoints(app, measurementUnitRepo, recipeRepo) {
   app.get('/api/authentication/google/start',
-    passport.authenticate('google', { session: false, scope: ['openid', 'profile', 'email'] }));
+    passport.authenticate('google', { session: false, scope: ['openid', 'profile', 'email'], prompt:'select_account' }));
 
   app.get('/api/authentication/google/redirect',
     passport.authenticate('google', { session: false }),
